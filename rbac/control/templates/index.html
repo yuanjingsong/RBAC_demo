@@ -1,5 +1,16 @@
 <html>
-
     <p>Hello {{ name }} , Your role is {{ role }}</p>
-
+    {% if role == 'student' %}
+    <button> 提交作业 </button>
+    {% endif %}
+    {% if role == 'teacher' %}
+    <button> 批改作业 </button>
+    {% for work in works %}
+    {{work}}
+    {% endfor %}
+    <button> 导出成绩 </button>
+    {% endif %}
+    {% if role == 'boss' %} 
+    <button> 管理端 </button>
+    {% endif %}
 </html>
