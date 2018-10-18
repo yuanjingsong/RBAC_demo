@@ -1,3 +1,4 @@
 rbac/db.sqlite3
 rbac/rbac/__pycache__/
 rbac/control/__pycache__/
+rbac/control/migrations/
