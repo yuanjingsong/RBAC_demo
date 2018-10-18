@@ -12,13 +12,26 @@
     {% endif %}
     {% if role == 'boss' %} 
     <p>For management <br><br>
-    {% for user in users %}
-        name: {{user.name}}
-        role: {{user.role}}
-        <br>
-        <br>
-    {% endfor %}
     <button> 导出成绩</button>
     </p>
     {% endif %}
+    <button type="submit" id="logOut" >退出系统</button>
+    <script type="text/javascript" language="javascript" >
+        var xmlHttp;
+        function GetXmlHttpObject() {
+            return new XMLHttpRequest();
+        }
+
+        var logOutUrl = document.URL + "logOut";
+        
+        logOut = document.getElementById("logOut");
+        logOut.onclick = function() {
+            xmlHttp = GetXmlHttpObject();
+            xmlHttp.open("GET", logOutUrl, true);
+            xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+            xmlHttp.send();
+            location.reload();
+        }
+
+    </script>
 </html>
