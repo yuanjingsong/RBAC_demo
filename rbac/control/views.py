@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from .models import User, Role, Url, user_role, Op, Resource
 # Create your views here.
 def index(request):
+    this_url = "/control"
     is_Login = request.session.get('logined', None)
     username = request.session.get('user', None)
 
@@ -12,13 +13,16 @@ def index(request):
         return render (request, "login.html")
     
     user = getUser(username)
-    url = getUrl("/control")
+    url = getUrl(this_url)
     role = getRole(user, url)
 
     context = {"name": user.nickName,
             "role": role,
             }
 
+    if role == "boss":
+        context['users'] = getUsers(this_url)
+        print(context['users'])
     return render(request, "index.html", context)
 
 def login(request):
@@ -37,6 +41,17 @@ def logOut(request):
 
     #return render(request, 'login.html')
     return redirect("index")
+
+def another(request):
+    this_url = "/control/another"
+    username = request.session.get('user', None)
+    url = getUrl(this_url)
+    user = getUser(username)
+    role = getRole(user, url)
+    context = {"name": user.nickName,
+            "role": role
+            }
+    return render (request, 'another.html', context)
 
 def check(username, pwd):
     password = User.objects.get(name=username).pwd
@@ -60,3 +75,10 @@ def getRole(user, url):
     ur = user_role.objects.get(user_id=user, url_id=url)
     return ur.role_id.name
 
+def getUsers(url):
+    url = getUrl(url)
+    users = []
+    for ur in  user_role.objects.filter(url_id = url):
+        if ur.role_id.name !=  "boss" :
+            users.append({"name":ur.user_id.nickName, "role": ur.role_id.name})
+    return  users

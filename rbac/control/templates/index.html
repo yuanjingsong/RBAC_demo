@@ -1,16 +1,24 @@
 <html>
     <p>Hello {{ name }} , Your role is {{ role }}</p>
     {% if role == 'student' %}
+    <p>For doing homework </p> <br>
     <button> 提交作业 </button>
     {% endif %}
     {% if role == 'teacher' %}
+    <p>This can be homework</p> <br>
+    <button> 作业查看 </button>
     <button> 批改作业 </button>
-    {% for work in works %}
-    {{work}}
-    {% endfor %}
-    <button> 导出成绩 </button>
+    <button> 管理成绩 </button>
     {% endif %}
     {% if role == 'boss' %} 
-    <button> 管理端 </button>
+    <p>For management <br><br>
+    {% for user in users %}
+        name: {{user.name}}
+        role: {{user.role}}
+        <br>
+        <br>
+    {% endfor %}
+    <button> 导出成绩</button>
+    </p>
     {% endif %}
 </html>
