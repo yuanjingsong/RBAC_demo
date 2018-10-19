@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.hashers import make_password, check_password
-from .models import User, Role, Url, user_role, Op, Resource
+from .models import User, Role, Url, user_role, Op, Resource, Permission, Auth
 # Create your views here.
 def index(request):
     this_url = "/control"
@@ -15,14 +15,12 @@ def index(request):
     user = getUser(username)
     url = getUrl(this_url)
     role = getRole(user, url)
-
+# type(role) is string
+    permissions = getPermissions(role)
     context = {"name": user.nickName,
             "role": role,
+            "permissions": permissions
             }
-
-    if role == "boss":
-        context['users'] = getUsers(this_url)
-        print(context['users'])
     return render(request, "index.html", context)
 
 def login(request):
@@ -82,3 +80,13 @@ def getUsers(url):
         if ur.role_id.name !=  "boss" :
             users.append({"name":ur.user_id.nickName, "role": ur.role_id.name})
     return  users
+
+def getPermissions(roleName):
+    role_id = Role.objects.get(name=roleName)
+    permissions = []
+    for auth in Auth.objects.filter(role_id = role_id):
+        permissions.append(  { "opName" :auth.permission_id.op_id.name,
+            "resName": auth.permission_id.res_id.name }
+                )
+
+    return permissions

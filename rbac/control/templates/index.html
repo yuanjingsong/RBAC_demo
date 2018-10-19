@@ -1,20 +1,25 @@
 <html>
     <p>Hello {{ name }} , Your role is {{ role }}</p>
     {% if role == 'student' %}
-    <p>For doing homework </p> <br>
-    <button> 提交作业 </button>
+    <p>For doing homework  <br> <br>
+    <!--<button> 提交作业 </button> -->
+    </p>
     {% endif %}
     {% if role == 'teacher' %}
-    <p>This can be homework</p> <br>
-    <button> 作业查看 </button>
-    <button> 批改作业 </button>
-    <button> 管理成绩 </button>
+    <p>For correct homework</p> <br>
+    <!--<button> 作业查看 </button> -->
+    <!--<button> 批改作业 </button> -->
+    <!--<button> 管理成绩 </button> -->
     {% endif %}
     {% if role == 'boss' %} 
     <p>For management <br><br>
-    <button> 导出成绩</button>
+    <!--<button> 导出成绩</button> -->
     </p>
     {% endif %}
+    {% for permission in permissions %} 
+    <button> {{permission.opName}} {{permission.resName}} </button>
+    {% endfor %}
+
     <button type="submit" id="logOut" >退出系统</button>
     <script type="text/javascript" language="javascript" >
         var xmlHttp;
@@ -32,6 +37,5 @@
             xmlHttp.send();
             location.reload();
         }
-
     </script>
 </html>

@@ -21,3 +21,11 @@ class Op(models.Model):
 
 class Resource(models.Model):
     name = models.CharField(max_length=30)
+
+class Permission(models.Model):
+    op_id = models.ForeignKey(Op, on_delete=models.CASCADE)
+    res_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
+
+class Auth(models.Model):
+    role_id = models.ForeignKey(Role, on_delete=models.CASCADE)
+    permission_id = models.ForeignKey(Permission, on_delete=models.CASCADE)
